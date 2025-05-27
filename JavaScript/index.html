@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Community Event Portal</title>
+  <style>
+    /* Updated color palette and card design */
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      padding: 24px; 
+      background: linear-gradient(120deg, #e0f7fa 0%, #b2dfdb 100%);
+      color: #222;
+    }
+    h1 {
+      color: #2d3a4b;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 0 #fff;
+    }
+    .card { 
+      border: none;
+      border-radius: 14px; 
+      padding: 18px 22px; 
+      margin: 18px 0; 
+      box-shadow: 0 4px 18px rgba(60, 90, 130, 0.10), 0 1.5px 4px rgba(60,90,130,0.07);
+      background: #fff;
+      transition: box-shadow 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 8px 32px rgba(60, 90, 130, 0.18), 0 3px 8px rgba(60,90,130,0.10);
+      background: #f0f7ff;
+    }
+    .hidden { display: none; }
+    #loading { 
+      display: none; 
+      font-weight: bold; 
+      color: #0a6ebd; 
+      background: #eaf6ff;
+      border-radius: 6px;
+      padding: 8px 16px;
+      margin: 12px 0;
+    }
+    .error { 
+      color: #e74c3c; 
+      font-weight: 500;
+      margin-top: 8px;
+    }
+    select, input[type="text"], input[type="email"] {
+      border: 1px solid #b0c4de;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin: 6px 0;
+      font-size: 1em;
+      background: #fafdff;
+      transition: border-color 0.2s;
+    }
+    select:focus, input[type="text"]:focus, input[type="email"]:focus {
+      border-color: #0a6ebd;
+      outline: none;
+      background: #f0f7ff;
+    }
+    button {
+      background: linear-gradient(90deg, #009688 0%, #26c6da 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,150,136,0.08);
+      transition: background 0.2s, box-shadow 0.2s;
+      margin-top: 8px;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #26c6da 0%, #009688 100%);
+      box-shadow: 0 4px 12px rgba(0,150,136,0.13);
+    }
+    #categoryFilter {
+      background: #eaf6ff;
+      color: #0a6ebd;
+      font-weight: 500;
+    }
+    #searchInput {
+      width: 220px;
+      margin-left: 10px;
+    }
+    form {
+      background: #fafdff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(60,90,130,0.06);
+      padding: 18px 22px;
+      margin-top: 24px;
+      max-width: 400px;
+    }
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .card, form { padding: 12px 8px; }
+      #searchInput { width: 100%; margin-left: 0; margin-top: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Community Event Portal</h1>
+  <p id="welcomeText"></p>
+
+  <select id="categoryFilter">
+    <option value="">All Categories</option>
+    <option value="music">Music</option>
+    <option value="workshop">Workshop</option>
+  </select>
+  <input type="text" id="searchInput" placeholder="Search by name" />
+
+  <div id="eventsContainer"></div>
+  <div id="loading">Loading events...</div>
+
+  <h2>Register for an Event</h2>
+  <form id="registrationForm">
+    <input type="text" name="name" placeholder="Your Name" required />
+    <input type="email" name="email" placeholder="Your Email" required />
+    <select name="event" required></select>
+    <button type="submit" id="registerBtn">Register</button>
+    <div id="formMsg" class="error"></div>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    console.log("Welcome to the Community Portal");
+    window.onload = () => alert("Page fully loaded");
+
+    const events = [
+      { name: "Music Fiesta", date: "2025-06-10", seats: 3, category: "music" },
+      { name: "Workshop on Baking", date: "2025-06-05", seats: 0, category: "workshop" },
+      { name: "Rock Concert", date: "2025-06-20", seats: 5, category: "music" }
+    ];
+
+    function displayValidEvents() {
+      const now = new Date();
+      const container = document.getElementById("eventsContainer");
+      container.innerHTML = "";
+
+      events.forEach(event => {
+        const eventDate = new Date(event.date);
+        if (eventDate > now && event.seats > 0) {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <h3>${event.name}</h3>
+            <p>Date: ${event.date}</p>
+            <p>Seats: ${event.seats}</p>
+            <p>Category: ${event.category}</p>
+            <button onclick="register('${event.name}')">Register</button>
+          `;
+          container.appendChild(card);
+        }
+      });
+    }
+
+    function addEvent(event) {
+      events.push(event);
+    }
+
+    function registerUser (name, email, selectedEvent) {
+      try {
+        const event = events.find(e => e.name === selectedEvent);
+        if (event && event.seats > 0) {
+          event.seats--;
+          alert(`Registered ${name} for ${selectedEvent}`);
+          displayValidEvents();
+        } else throw "Event is full or not found.";
+      } catch (error) {
+        console.error("Registration error:", error);
+      }
+    }
+
+    const categoryRegistrations = (() => {
+      const count = {};
+      return (category) => {
+        count[category] = (count[category] || 0) + 1;
+        return count[category];
+      };
+    })();
+
+    function filterEventsByCategory(category, callback) {
+      const filtered = category ? events.filter(e => e.category === category) : events;
+      callback(filtered);
+    }
+
+    class Event {
+      constructor(name, date, seats) {
+        this.name = name;
+        this.date = date;
+        this.seats = seats;
+      }
+    }
+    Event.prototype.checkAvailability = function() {
+      return this.seats > 0;
+    };
+
+    function formatCards(eventsArray) {
+      return eventsArray.map(e => `${e.category.toUpperCase()}: ${e.name}`);
+    }
+
+    document.querySelector("#categoryFilter").addEventListener("change", e => {
+      const value = e.target.value;
+      filterEventsByCategory(value, (filtered) => {
+        displayValidEvents(filtered);
+      });
+    });
+
+    document.querySelector("#searchInput").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        const query = e.target.value.toLowerCase();
+        const matched = events.filter(e => e.name.toLowerCase().includes(query));
+        const container = document.getElementById("eventsContainer");
+        container.innerHTML = "";
+        matched.forEach(event => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `<h3>${event.name}</h3><p>Date: ${event.date}</p>`;
+          container.appendChild(card);
+        });
+      }
+    });
+
+    async function fetchEvents() {
+      document.getElementById("loading").style.display = "block";
+      try {
+        const response = await new Promise(resolve =>
+          setTimeout(() => resolve({ json: () => events }), 1000)
+        );
+        const data = await response.json();
+        console.log("Fetched Events:", data);
+        displayValidEvents(data);
+        populateFormOptions(data);
+      } catch (e) {
+        console.error("Failed to load events");
+      } finally {
+        document.getElementById("loading").style.display = "none";
+      }
+    }
+
+    const cloneEvents = [...events];
+    const [{ name: firstName }] = cloneEvents;
+    console.log("First event name:", firstName);
+
+    function populateFormOptions(events) {
+      const select = document.querySelector("form select[name='event']");
+      select.innerHTML = "";
+      events.forEach(e => {
+        const option = document.createElement("option");
+        option.value = e.name;
+        option.text = e.name;
+        select.appendChild(option);
+      });
+    }
+
+    document.getElementById("registrationForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.name.value;
+      const email = form.email.value;
+      const eventName = form.event.value;
+
+      if (!name || !email || !eventName) {
+        document.getElementById("formMsg").innerText = "All fields required!";
+        return;
+      }
+
+      try {
+        const res = await new Promise(resolve =>
+          setTimeout(() => resolve({ status: 200 }), 1000)
+        );
+        if (res.status === 200) {
+          registerUser (name, email, eventName);
+          categoryRegistrations(events.find(e => e.name === eventName).category);
+          form.reset();
+          $("#formMsg").fadeOut();
+        }
+      } catch {
+        document.getElementById("formMsg").innerText = "Registration failed!";
+      }
+    });
+
+    console.log("Form ready, waiting for submit...");
+
+    $('#registerBtn').click(() => console.log("jQuery button click captured"));
+    $("#eventsContainer").fadeIn();
+
+    fetchEvents();
+  </script>
+</body>
+</html>

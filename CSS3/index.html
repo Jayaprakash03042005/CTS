@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CSS3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #232946;
+        }
+        #mainHeader {
+            background: rgba(35,41,70,0.92);
+            color: #eebbc3;
+            padding: 32px 0 16px 0;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(35,41,70,0.15);
+        }
+        #mainHeader h2 {
+            margin: 0 0 12px 0;
+            font-size: 2.2em;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 36px;
+        }
+        nav li {
+            margin: 0;
+        }
+        nav a {
+            color: #eebbc3;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        nav a:hover, nav a:focus {
+            background: #eebbc3;
+            color: #232946;
+        }
+        #events {
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+            margin: 40px 0 0 0;
+            flex-wrap: wrap;
+        }
+        .eventCard {
+            background: rgba(255,255,255,0.90);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(35,41,70,0.13);
+            padding: 28px 32px;
+            width: 320px;
+            max-width: 90vw;
+            margin-bottom: 20px;
+            text-align: center;
+            transition: transform 0.18s, box-shadow 0.18s;
+        }
+        .eventCard:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(35,41,70,0.18);
+            background: rgba(238,187,195,0.15);
+        }
+        .eventCard h3 {
+            color: #232946;
+            margin-bottom: 12px;
+        }
+        .eventCard p {
+            color: #393e46;
+            margin-bottom: 22px;
+        }
+        .cta-button {
+            background: linear-gradient(90deg, #eebbc3 0%, #b8c1ec 100%);
+            color: #232946;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 32px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(35,41,70,0.09);
+            transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+        }
+        .cta-button:hover {
+            background: linear-gradient(90deg, #b8c1ec 0%, #eebbc3 100%);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(35,41,70,0.19);
+        }
+        #news {
+            background: rgba(184,193,236,0.92);
+            color: #232946;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(35,41,70,0.10);
+            padding: 32px 36px;
+            margin: 36px auto 0 auto;
+        }
+        #news h2 {
+            color: #232946;
+            margin-top: 0;
+        }
+        #admin {
+            background: rgba(255,255,255,0.92);
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(35,41,70,0.10);
+            padding: 32px 36px;
+            margin: 36px auto 0 auto;
+            max-width: 900px;
+        }
+        #admin h2 {
+            color: #232946;
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 18px;
+            background: #f4f7fa;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 14px 12px;
+            text-align: left;
+        }
+        th {
+            background: #eebbc3;
+            color: #232946;
+            font-weight: 700;
+        }
+        tr:nth-child(even) {
+            background: #f4f7fa;
+        }
+        tr:nth-child(odd) {
+            background: #fff;
+        }
+        #contact {
+            max-width: 420px;
+            margin: 40px auto;
+            background: rgba(35,41,70,0.90);
+            padding: 28px 28px 18px 28px;
+            border-radius: 18px;
+            color: #eebbc3;
+            box-shadow: 0 2px 12px rgba(35,41,70,0.10);
+        }
+        #contact h2 {
+            color: #eebbc3;
+            margin-top: 0;
+        }
+        #contact label {
+            color: #b8c1ec;
+            font-weight: 600;
+        }
+        #contact input, #contact textarea {
+            border: 1px solid #b8c1ec;
+            border-radius: 8px;
+            background: #fff;
+            color: #232946;
+            padding: 10px;
+            margin-bottom: 18px;
+            width: 100%;
+            font-size: 1em;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+        #contact button.cta-button {
+            margin-top: 10px;
+            width: 100%;
+        }
+        @media (max-width: 700px) {
+            #events {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+            #news, #admin {
+                padding: 18px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="mainHeader">
+        <h2>Upcoming Events</h2>
+        <nav>
+            <ul>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#admin">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="events">
+        <article class="eventCard">
+            <h3>Spring Festival</h3>
+            <p>Celebrate the arrival of spring with food, music, and fun activities for all ages.</p>
+            <button class="cta-button">Register Now</button>
+        </article>
+
+        <article class="eventCard">
+            <h3>Community Clean-Up</h3>
+            <p>Join us in keeping our parks clean and green. Supplies provided.</p>
+            <button class="cta-button">Sign Up</button>
+        </article>
+    </section>
+
+    <section id="news" style="width: 90%; max-width: 800px; margin: 20px auto;">
+        <h2>Community Bulletin</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tincidunt suscipit felis, nec lacinia arcu vehicula a.</p>
+        <p>Curabitur non mi ut neque cursus facilisis. Duis imperdiet dapibus erat, nec vestibulum metus bibendum non.</p>
+    </section>
+
+    <section id="admin">
+        <h2>Events Administration</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Registered</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Spring Festival</td>
+                    <td>March 21</td>
+                    <td>Main Park</td>
+                    <td>150</td>
+                </tr>
+                <tr>
+                    <td>Community Clean-Up</td>
+                    <td>April 10</td>
+                    <td>City Center</td>
+                    <td>75</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="contact" style="max-width: 400px; margin: 40px auto; background: rgba(255,255,255,0.9); padding: 20px; border-radius: 10px;">
+        <h2>Contact Us</h2>
+        <form>
+            <label for="name">Name:</label><br />
+            <input type="text" id="name" name="name" placeholder="Your name" style="width: 100%; padding: 8px; margin-bottom: 15px;" /><br />
+            <label for="email">Email:</label><br />
+            <input type="email" id="email" name="email" placeholder="Your email" style="width: 100%; padding: 8px; margin-bottom: 15px;" /><br />
+            <label for="message">Message:</label><br />
+            <textarea id="message" name="message" rows="4" style="width: 100%; padding: 8px; margin-bottom: 15px;" placeholder="Write your message here..."></textarea><br />
+            <button class="cta-button" type="submit">Send</button>
+        </form>
+    </section>
+
+    <section style="text-align:center; margin: 40px 0;">
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Community Event" style="max-width: 600px; width: 100%; border-radius: 10px;" />
+    </section>
+
+</body>
+</html>
